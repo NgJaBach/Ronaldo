@@ -1,3 +1,4 @@
+// The scout. Watches the match (Instagram's own traffic) from the stands and takes notes. Never touches the ball.
 // Paste into the DevTools console of https://www.instagram.com/<profile>/ while logged in.
 // It does NOT call any Instagram API itself: it only records the JSON the page already loads
 // (its own /api/graphql responses and embedded initial data) while scrolling slowly like a person.

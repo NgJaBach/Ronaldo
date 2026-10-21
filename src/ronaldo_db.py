@@ -1,9 +1,9 @@
-"""Storage for Ronaldo Instagram posts. Stores EVERY post unfiltered; filters and labels come later.
+"""The vault. Stores EVERY post unfiltered, like a goalkeeper who lets everything in so the striker can sort it out later.
 
-Usage:
-  python ronaldo_db.py ingest raw/posts.jsonl   # idempotent: re-ingesting updates likes/comments/caption by code
-  python ronaldo_db.py stats
-  python ronaldo_db.py search "champion mindset" -n 10
+Usage (run from the repo root):
+  python src/ronaldo_db.py ingest data/raw/run2.jsonl   # idempotent: re-ingesting updates rows by shortcode
+  python src/ronaldo_db.py stats
+  python src/ronaldo_db.py search "champion mindset" -n 10
 
 Each JSONL line: {"code","ts","likes","comments","type","caption","owner"}
 """
@@ -13,7 +13,7 @@ import sqlite3
 import sys
 from pathlib import Path
 
-DB = Path(__file__).with_name("ronaldo.db")
+DB = Path(__file__).resolve().parent.parent / "data" / "ronaldo.db"
 
 # --- optional helper for later labelling; NOT used by ingest -------------------------------------
 STOPWORDS = {
@@ -82,7 +82,7 @@ def ingest(path: str) -> None:
             new += 1
         con.execute("INSERT INTO posts VALUES (?,?,?,?,?,?,?)", row)
     con.commit()
-    print(f"new {new}, updated {updated}")
+    print(f"new {new}, updated {updated}. Goal!")
 
 
 def stats() -> None:
@@ -91,6 +91,7 @@ def stats() -> None:
         "SELECT COUNT(*), SUM(caption=''), MIN(ts), MAX(ts) FROM posts").fetchone()
     owners = con.execute("SELECT owner, COUNT(*) FROM posts GROUP BY owner ORDER BY 2 DESC LIMIT 5").fetchall()
     print(f"posts {n}, empty captions {empty}, ts range {oldest}..{newest}, owners {owners}")
+    print("SIUUUUUUU")
 
 
 def search(q: str, n: int = 10) -> None:

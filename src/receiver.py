@@ -1,10 +1,12 @@
-"""Local receiver. GET / serves a page that reads posts from the URL hash and POSTs them back to this server;
-posts are appended to raw/run2.jsonl (one JSON per line)."""
+"""The ball boy. Fetches posts from the browser and delivers them to disk, then sprints back to the touchline.
+
+GET / serves a page that reads posts from the URL hash and POSTs them back to this server (127.0.0.1 only);
+posts are appended to data/raw/run2.jsonl (one JSON per line)."""
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
 
-OUT = Path(__file__).with_name("raw")
+OUT = Path(__file__).resolve().parent.parent / "data" / "raw"
 OUT.mkdir(exist_ok=True)
 
 PAGE = b"""<!doctype html><meta charset=utf-8><title>rx</title><body id=b>waiting

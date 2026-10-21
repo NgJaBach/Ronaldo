@@ -1,3 +1,4 @@
+"""VAR for the language filter. Run from src/:  python test_filter.py"""
 from ronaldo_db import is_meaningful_english as f
 
 assert f("Proud of this team and what we achieved together. On to the next one!")
